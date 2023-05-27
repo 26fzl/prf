@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stddef.h>
 /**
  * _print_char - Print a character and update the count
  * @args: va_list with the arguments
@@ -50,17 +51,21 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (*format == '\0')
-				break;
-
-			if (*format == 'c')
-			_print_char(args, &count);
-			else if (*format == 's')
-			_print_string(args, &count);
-			else if (*format == '%')
+			if (*format != '\0')
 			{
-				putchar('%');
-				count++;
+				switch (*format)
+				{
+					case 'c':
+						_print_char(args, &count);
+						break;
+					case 's':
+						_print_string(args, &count);
+						break;
+					default:
+						putchar(*format);
+						count++;
+						break;
+				}
 			}
 		}
 		else

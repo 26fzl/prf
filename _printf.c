@@ -9,7 +9,7 @@ void print_buffer(char buffer[], int *buff_ind);
 int _printf(const char *format, ...)
 {
 	int x, prt = 0, prt_ch = 0;
-	int flg, width, precis, size, buff_ind = 0;
+	int flags, width, precision, size, buff_ind = 0;
 	va_list lst;
 	char buffer[BUFF_SIZE];
 
@@ -23,18 +23,18 @@ int _printf(const char *format, ...)
 			buffer[buff_ind++] = format[x];
 			if (buff_ind == BUFF_SIZE)
 				print_buffer(buffer, &buff_ind);
-			printed_chars++;
+			prt_ch++;
 		}
 		else
 		{
 			print_buffer(buffer, &buff_ind);
-			flg = get_flags(format, &x);
+			flags = get_flags(format, &x);
 			width = get_width(format, &x, lst);
-			precis = get_precision(format, &x, lst);
+			precision = get_precision(format, &x, lst);
 			size = get_size(format, &x);
 			++x;
 			prt = handle_print(format, &x, lst, buffer,
-					flg, width, precis, size);
+					flags, width, precision, size);
 			if (prt == -1)
 				return (-1);
 			prt_ch += prt;

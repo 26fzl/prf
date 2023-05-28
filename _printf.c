@@ -1,83 +1,45 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stddef.h>
 /**
- * _print_char - Print a character and update the count
- * @args: va_list with the arguments
- * @count: current count of characters printed
+ * _printf -  selects the correct function to print.
+ * @format: identifier to find.
+ * Return: the length of the string.
  */
-void _print_char(va_list args, int *count)
+int _printf(const char * const format, ...)
 {
-	int c = va_arg(args, int);
+convert_match m[] = {
+		{"%s", printf_string}, {"%c", printf_char},
+		{"%%", printf_37},
+		{"%i", printf_int}, {"%d", printf_dec}, {"%r", printf_srev},
+		{"%R", printf_rot13}, {"%b", printf_bin}, {"%u", printf_unsigned},
+		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
+		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
+	};
 
-	putchar(c);
-	(*count)++;
-}
-
-/**
- * _print_string - Print a string and update the count
- * @args: va_list with the arguments
- * @count: current count of characters printed
- */
-void _print_string(va_list args, int *count)
-{
-	char *s = va_arg(args, char *);
-
-	while (*s != '\0')
-	{
-		putchar(*s);
-		s++;
-		(*count)++;
-	}
-}
-
-/**
- * _printf - Printf function
- * @format: character string.
- * Return: the number of characters printed.
- */
-int _printf(const char *format, ...)
-{
 	va_list args;
-	int count = 0;
+	int x = 0, y, len = 0;
 
 	va_start(args, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
 
-	while (*format != '\0')
+Here:
+	while (format[x] != '\0')
 	{
-		if (*format == '%')
+		y = 13;
+		while (y >= 0)
 		{
-			format++;
-			if (*format != '\0')
+			if (m[y].id[0] == format[x] && m[y].id[1] == format[x + 1])
 			{
-				switch (*format)
-				{
-					case 'c':
-						_print_char(args, &count);
-						break;
-					case 's':
-						_print_string(args, &count);
-						break;
-					default:
-						putchar(*format);
-						count++;
-						break;
-				}
+				len += m[y].f(args);
+				x = x + 2;
+				goto Here;
 			}
+			y--;
 		}
-		else
-		{
-			putchar(*format);
-			count++;
-		}
-
-	format++;
+		_putchar(format[x]);
+		len++;
+		x++;
 	}
-
 	va_end(args);
-
-	return (count);
+	return (len);
 }

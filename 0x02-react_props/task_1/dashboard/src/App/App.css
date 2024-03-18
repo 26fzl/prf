@@ -1,0 +1,9 @@
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App-body {
+  min-height: 45vh;
+  font-size: 1rem;
+  padding: 2em;
+}

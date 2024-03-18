@@ -1,0 +1,10 @@
+.App-body {
+  min-height: 45vh;
+  font-size: 1rem;
+  padding: 2em;
+}
+
+.App-body label,
+.App-body input {
+  margin-right: 10px;
+}

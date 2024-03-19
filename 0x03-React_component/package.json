@@ -1,0 +1,12 @@
+{
+  "name": "0x03-react_component",
+  "version": "1.0.0",
+  "description": "This project goes further in-depth in the use of React components and lifecycle methods",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
